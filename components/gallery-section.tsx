@@ -44,7 +44,7 @@ export function GallerySection() {
     <section ref={sectionRef} id="comunidad" className="py-20 px-4 bg-slate-900/50">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Nuestra Comunidad</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Mas sobre Nosotros</h2>
           <div className="w-24 h-1 bg-gradient-to-r from-amber-400 to-amber-600 mx-auto mb-6"></div>
           <p className="text-slate-300 text-lg max-w-2xl mx-auto">
             Momentos especiales que compartimos juntos en fe y amor

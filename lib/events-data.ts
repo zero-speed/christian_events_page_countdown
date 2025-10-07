@@ -1,50 +1,57 @@
 export const events = [
   {
     id: 1,
-    title: "Culto de Adoración",
-    date: "2025-12-12",
+    title: "Culto Unido Circuital",
+    date: "2025-11-01",
     time: "10:00 AM",
-    location: "Templo Principal",
+    location: "Parque Cachimayo",
     description:
-      "Únete a nosotros para un tiempo especial de adoración y alabanza. Experimentaremos la presencia de Dios a través de la música, la oración y la palabra. Este culto está diseñado para renovar tu espíritu y fortalecer tu fe.",
+      "Ven y sé parte de un día especial de adoración, unidad y alegría en medio de la naturaleza. Compartiremos juntos un tiempo de alabanza, palabra, juegos y convivencia, celebrando la presencia de Dios en un hermoso entorno al aire libre.",
     gallery: [
-      "/church-worship-service-praise.jpg",
-      "/youth-group-christian-worship-modern.jpg",
-      "/prayer-vigil-church-candles-worship.jpg",
+      "campo_01.jpeg",
+      "logo_metodista.png",
+      "campo_02.jpeg",
     ],
-    category: "Adoración",
-    organizer: "Pastor Juan Martínez",
-    capacity: "500 personas",
+    category: "Jovenes",
+    organizer: "Circuito Valle Sur Cusco",
+    capacity: "80 personas",
   },
   {
     id: 2,
-    title: "Estudio Bíblico",
-    date: "2025-12-12",
-    time: "7:00 PM",
-    location: "Sala de Conferencias",
-    description:
-      "Profundiza en las Escrituras con nuestro estudio bíblico semanal. Exploraremos el libro de Romanos y su relevancia para nuestra vida diaria. Un espacio para aprender, compartir y crecer juntos en el conocimiento de la Palabra.",
+    title: "Congreso de Jovenes",
+    date: "2025-12-26",
+    time: "09:00 AM",
+    location: "Casa Hogar Azul Wasi - Oropesa Cusco",
+    description:`
+    Durante cinco días llenos de fe, alegría y propósito, tendrás la oportunidad de ser parte de un encuentro masivo de jóvenes de todo el Distrito Sur Andino Inca.
+    Será un tiempo único para buscar más de Dios, fortalecer tu fe, hacer nuevas amistades y vivir momentos que marcarán tu vida para siempre.
+
+    Prepárate para experimentar alabanza con pasión, palabra transformadora, talleres, dinámicas y noches de adoración, donde Cristo será el centro de todo.
+    No es solo un evento, es un encuentro divino, una oportunidad para avivar el fuego en tu corazón y renovar tu compromiso con Jesús.
+    `,
     gallery: [
-      "/bible-study-group-reading.jpg",
-      "/spiritual-retreat-nature-prayer-mountains.jpg",
-      "/christian-family-conference-together.jpg",
+      "congreso_01.jpeg",
+      "congreso_02.jpeg",
+      "logo_metodista.png",
     ],
     category: "Enseñanza",
-    organizer: "Ministerio de Enseñanza",
-    capacity: "100 personas",
+    organizer: "Distrito Sur Andino Inca",
+    capacity: "120 personas",
   },
   {
     id: 3,
-    title: "Noche de Jóvenes",
-    date: "2025-01-20",
-    time: "8:00 PM",
-    location: "Centro Juvenil",
-    description:
-      "Una noche especial diseñada para jóvenes con música contemporánea, testimonios inspiradores y un mensaje poderoso. Incluye actividades dinámicas, tiempo de comunión y refrigerios. ¡Trae a tus amigos!",
+    title: "Chocolatada con Cristo",
+    date: "2025-12-27",
+    time: "06:00 PM",
+    location: "Iglesia Central Sol de Oro - Cusco",
+    description:`
+      Una noche especial para disfrutar como familia de fe. Nos reuniremos con la congregación joven para compartir momentos de alegría, unidad y hermandad en Cristo. Será un tiempo para reír, conversar, agradecer y disfrutar juntos una deliciosa chocolatada preparada con mucho amor.
+Más que un encuentro, será una oportunidad para fortalecer los lazos que nos unen y recordar que somos un solo cuerpo en Jesús.
+    `,
     gallery: [
-      "/youth-group-christian-worship-modern.jpg",
-      "/church-worship-service-praise.jpg",
-      "/bible-study-group-reading.jpg",
+      "chocolatada_01.jpeg",
+      "chocolatada_02.jpeg",
+      "logo_metodista.png",
     ],
     category: "Jóvenes",
     organizer: "Ministerio Juvenil",
@@ -52,50 +59,60 @@ export const events = [
   },
   {
     id: 4,
-    title: "Retiro Espiritual",
-    date: "2025-01-25",
-    time: "9:00 AM",
-    location: "Centro de Retiros Monte Sión",
-    description:
-      "Tres días de renovación espiritual en un ambiente natural. Incluye sesiones de oración, talleres de crecimiento personal, tiempo de reflexión y actividades al aire libre. Una oportunidad única para desconectarte del mundo y conectarte con Dios.",
+    title: "Hello 2026",
+    date: "2026-01-03",
+    time: "06:00 PM",
+    location: "Iglesia Central Sol de Oro - Cusco",
+    description:`
+    Un nuevo año comienza, y con él llega una nueva oportunidad para poner a Cristo en el centro de nuestras vidas. 🙏
+Este 2026, que cada día sea una ocasión para renovar nuestra fe, fortalecer nuestros pasos en el camino del Señor y compartir Su amor con los demás.
+
+Que dejemos atrás todo lo que nos detuvo, y abracemos con esperanza lo que Dios tiene preparado.
+🌿 Porque cuando Cristo guía nuestros planes, el año se llena de propósito, paz y bendición.
+    `,
+      
     gallery: [
-      "/spiritual-retreat-nature-prayer-mountains.jpg",
-      "/prayer-vigil-church-candles-worship.jpg",
-      "/church-worship-service-praise.jpg",
+      "2026_01.webp)",
+      "2026_02.webp)",
+      "logo_metodista.png",
     ],
-    category: "Retiro",
-    organizer: "Equipo Pastoral",
+    category: "Jovenes",
+    organizer: "Jovenes Cusco",
     capacity: "80 personas",
   },
   {
     id: 5,
-    title: "Conferencia Familiar",
-    date: "2025-02-01",
-    time: "6:00 PM",
-    location: "Auditorio Central",
-    description:
-      "Una conferencia especial enfocada en fortalecer los lazos familiares desde una perspectiva bíblica. Contaremos con expertos en consejería familiar, actividades para niños y adolescentes, y un mensaje inspirador para toda la familia.",
+    title: "Festival Diospi Suyana",
+    date: "2026-04-27",
+    time: "10:00 AM",
+    location: "Hospital Diospi Suyana - curahuasi",
+    description:`
+    El Festival Vida en los Andes, organizado por la institución Diospi Suyana, se realizara en abril de 2026 en Curahuasi, Apurímac, Perú. Este evento reunira a jóvenes de todo el país en una experiencia de fe, música y comunidad, incluyendo la participación de grupos musicales como Su Presencia Worship y talleres para fomentar la transformación y la esperanza entre los participantes
+    `,
+      
     gallery: [
-      "/christian-family-conference-together.jpg",
-      "/bible-study-group-reading.jpg",
-      "/youth-group-christian-worship-modern.jpg",
+      "vida_04.jpg",
+      "vida_05.jpg",
+      "vida_01.jpg",
+      "vida_02.jpg",
+      "vida_03.jpg"
     ],
-    category: "Familia",
-    organizer: "Ministerio Familiar",
-    capacity: "400 personas",
+    category: "Jovenes",
+    organizer: "Hospital Diospi Suyana",
+    capacity: "6000 personas",
   },
   {
     id: 6,
-    title: "Vigilia de Oración",
+    title: "Sin titulo",
     date: "2025-02-05",
     time: "10:00 PM",
     location: "Templo Principal",
     description:
-      "Una noche dedicada completamente a la oración e intercesión. Buscaremos juntos el rostro de Dios, intercederemos por nuestras familias, la iglesia y la nación. Habrá momentos de adoración, oración corporativa y personal.",
+      "Aun no tenemos suficiente informacion del evento",
     gallery: [
-      "/prayer-vigil-church-candles-worship.jpg",
-      "/spiritual-retreat-nature-prayer-mountains.jpg",
-      "/church-worship-service-praise.jpg",
+      "logo_metodista.png",
+      "logo_metodista.png",
+      "logo_metodista.png",
     ],
     category: "Oración",
     organizer: "Ministerio de Intercesión",

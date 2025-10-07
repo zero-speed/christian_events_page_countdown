@@ -7,9 +7,9 @@ import { Suspense } from "react"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "Unidos en Fe - Eventos Cristianos",
-  description: "Descubre los próximos eventos de nuestra comunidad cristiana",
-  generator: "v0.app",
+  title: "Eventos Metodistas",
+  description: "Descubre los próximos eventos de nuestra Iglesia Metodista",
+  generator: "Efrain by v0.app",
 }
 
 export default function RootLayout({

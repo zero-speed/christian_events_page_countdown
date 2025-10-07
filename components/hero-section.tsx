@@ -5,7 +5,7 @@ import { events } from "@/lib/events-data"
 
 export function HeroSection() {
   const [isVisible, setIsVisible] = useState(false)
-  const activeMembers = 1247
+  const activeMembers = 221
   const totalEvents = events.length
 
   useEffect(() => {
@@ -38,7 +38,7 @@ export function HeroSection() {
       >
         <div className="mb-8">
           <div className="inline-block bg-amber-500/10 border border-amber-500/30 rounded-full px-6 py-2 mb-6">
-            <span className="text-amber-400 font-semibold">Bienvenidos a nuestra comunidad</span>
+            <span className="text-amber-400 font-semibold">Bienvenidos a Nuestro mural digital</span>
           </div>
         </div>
 
@@ -49,14 +49,14 @@ export function HeroSection() {
         </h1>
 
         <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto mb-12 leading-relaxed">
-          Descubre los próximos eventos de nuestra comunidad cristiana y únete a nosotros en adoración, aprendizaje y
+          Descubre los próximos eventos de nuestra Iglesia cristiana Metodista - Cusco y únete a nosotros en adoración, aprendizaje y
           compañerismo
         </p>
 
         <div className="flex flex-col sm:flex-row gap-8 justify-center mb-12 max-w-2xl mx-auto">
           <div className="flex-1 bg-slate-800/30 backdrop-blur-sm border border-amber-500/20 rounded-lg p-6">
             <div className="text-4xl md:text-5xl font-bold text-amber-400 mb-2">{activeMembers.toLocaleString()}</div>
-            <div className="text-slate-300 text-sm md:text-base">Miembros Activos</div>
+            <div className="text-slate-300 text-sm md:text-base">Miembros Activos en el Distrito</div>
           </div>
           <div className="flex-1 bg-slate-800/30 backdrop-blur-sm border border-amber-500/20 rounded-lg p-6">
             <div className="text-4xl md:text-5xl font-bold text-amber-400 mb-2">{totalEvents}</div>
