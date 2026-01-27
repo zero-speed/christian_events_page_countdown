@@ -1,18 +1,15 @@
 "use client"
 
-import { TargetAudience } from "@/lib/types"
-
 interface CategoryFilterProps {
-  selectedCategory: TargetAudience | null
-  onCategoryChange: (category: TargetAudience | null) => void
+  selectedCategory: string | null
+  onCategoryChange: (category: string | null) => void
 }
 
-const categories: { label: string; value: TargetAudience }[] = [
-  { label: "Niños", value: "niños" },
-  { label: "Jóvenes", value: "jóvenes" },
-  { label: "Todos", value: "todos" },
-  { label: "Mujeres", value: "mujeres" },
-  { label: "Varones", value: "varones" },
+const categories: { label: string; value: string }[] = [
+  { label: "Jóvenes", value: "Jóvenes" },
+  { label: "Enseñanza", value: "Enseñanza" },
+  { label: "Oración", value: "Oración" },
+  { label: "Jovenes", value: "Jovenes" },
 ]
 
 export function CategoryFilter({ selectedCategory, onCategoryChange }: CategoryFilterProps) {

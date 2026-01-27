@@ -20,6 +20,9 @@ export default function AdminPage() {
   const [editingGalleryItem, setEditingGalleryItem] = useState<GalleryItem | null>(null)
   const [showEventForm, setShowEventForm] = useState(false)
   const [showGalleryForm, setShowGalleryForm] = useState(false)
+  const [showNewCategoryModal, setShowNewCategoryModal] = useState(false)
+  const [newCategoryName, setNewCategoryName] = useState("")
+  const [categories, setCategories] = useState<string[]>(["Jóvenes", "Enseñanza", "Oración"])
   const [formData, setFormData] = useState({
     title: "",
     date: "",
@@ -27,7 +30,6 @@ export default function AdminPage() {
     location: "",
     description: "",
     category: "",
-    targetAudience: "todos" as const,
     organizer: "",
     capacity: "",
     gallery: [] as string[],
@@ -100,7 +102,6 @@ export default function AdminPage() {
         location: "",
         description: "",
         category: "",
-        targetAudience: "todos",
         organizer: "",
         capacity: "",
         gallery: [],
@@ -118,7 +119,6 @@ export default function AdminPage() {
       location: event.location,
       description: event.description,
       category: event.category,
-      targetAudience: event.targetAudience,
       organizer: event.organizer || "",
       capacity: event.capacity || "",
       gallery: event.gallery || [],
@@ -152,7 +152,6 @@ export default function AdminPage() {
       location: "",
       description: "",
       category: "",
-      targetAudience: "todos",
       organizer: "",
       capacity: "",
       gallery: [],
@@ -163,6 +162,14 @@ export default function AdminPage() {
   const handleDeleteEvent = (id: number) => {
     if (confirm("¿Estás seguro de que deseas eliminar este evento?")) {
       setEventList(eventList.filter((e) => e.id !== id))
+    }
+  }
+
+  const handleAddCategory = () => {
+    if (newCategoryName.trim() && !categories.includes(newCategoryName)) {
+      setCategories([...categories, newCategoryName])
+      setNewCategoryName("")
+      setShowNewCategoryModal(false)
     }
   }
 
@@ -229,6 +236,42 @@ export default function AdminPage() {
       alert("Por favor completa todos los campos")
     }
   }
+
+  // Modal para nueva categoría
+  const NewCategoryModal = () => (
+    showNewCategoryModal && (
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div className="bg-slate-800 border border-slate-700 rounded-lg p-6 max-w-sm w-full mx-4">
+          <h3 className="text-xl font-bold text-white mb-4">Nueva Categoría</h3>
+          <input
+            type="text"
+            placeholder="Nombre de la categoría"
+            value={newCategoryName}
+            onChange={(e) => setNewCategoryName(e.target.value)}
+            className="w-full bg-slate-700 border border-slate-600 text-white px-4 py-2 rounded-lg mb-4"
+            onKeyPress={(e) => e.key === 'Enter' && handleAddCategory()}
+          />
+          <div className="flex gap-3">
+            <button
+              onClick={handleAddCategory}
+              className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold px-4 py-2 rounded-lg transition-colors"
+            >
+              Crear
+            </button>
+            <button
+              onClick={() => {
+                setShowNewCategoryModal(false)
+                setNewCategoryName("")
+              }}
+              className="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-bold px-4 py-2 rounded-lg transition-colors"
+            >
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  )
 
   if (isLoading) {
     return (
@@ -403,9 +446,9 @@ export default function AdminPage() {
                     location: "",
                     description: "",
                     category: "",
-                    targetAudience: "todos",
                     organizer: "",
                     capacity: "",
+                    gallery: [],
                   })
                   setShowEventForm(!showEventForm)
                 }}
@@ -449,24 +492,24 @@ export default function AdminPage() {
                     onChange={(e) => setFormData({ ...formData, location: e.target.value })}
                     className="bg-slate-700 border border-slate-600 text-white px-4 py-2 rounded-lg"
                   />
-                  <input
-                    type="text"
-                    placeholder="Categoría"
-                    value={formData.category}
-                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="bg-slate-700 border border-slate-600 text-white px-4 py-2 rounded-lg"
-                  />
-                  <select
-                    value={formData.targetAudience}
-                    onChange={(e) => setFormData({ ...formData, targetAudience: e.target.value as any })}
-                    className="bg-slate-700 border border-slate-600 text-white px-4 py-2 rounded-lg"
-                  >
-                    <option value="niños">Niños</option>
-                    <option value="jóvenes">Jóvenes</option>
-                    <option value="todos">Todos</option>
-                    <option value="mujeres">Mujeres</option>
-                    <option value="varones">Varones</option>
-                  </select>
+                  <div className="flex gap-2">
+                    <select
+                      value={formData.category}
+                      onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                      className="flex-1 bg-slate-700 border border-slate-600 text-white px-4 py-2 rounded-lg"
+                    >
+                      <option value="">Seleccionar Categoría</option>
+                      {categories.map((cat) => (
+                        <option key={cat} value={cat}>{cat}</option>
+                      ))}
+                    </select>
+                    <button
+                      onClick={() => setShowNewCategoryModal(true)}
+                      className="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-4 py-2 rounded-lg transition-colors"
+                    >
+                      +
+                    </button>
+                  </div>
                   <input
                     type="text"
                     placeholder="Organizador"
@@ -898,6 +941,8 @@ export default function AdminPage() {
           </div>
         )}
       </div>
+
+      <NewCategoryModal />
     </div>
   )
 }

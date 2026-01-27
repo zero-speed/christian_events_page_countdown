@@ -8,12 +8,12 @@ import { GallerySection } from "@/components/gallery-section"
 import { FooterSection } from "@/components/footer-section"
 import { CategoryFilter } from "@/components/category-filter"
 import { events } from "@/lib/events-data"
-import { Event, TargetAudience } from "@/lib/types"
+import { Event } from "@/lib/types"
 
 export default function Home() {
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [selectedCategory, setSelectedCategory] = useState<TargetAudience | null>(null)
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [upcomingCount, setUpcomingCount] = useState(0)
 
   const openModal = (event: Event) => {
@@ -54,7 +54,7 @@ export default function Home() {
 
     // Filter by category
     if (selectedCategory) {
-      filtered = filtered.filter((event) => event.targetAudience === selectedCategory)
+      filtered = filtered.filter((event) => event.category === selectedCategory)
     }
 
     // Sort by date (ascending)
