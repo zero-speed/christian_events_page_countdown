@@ -125,8 +125,15 @@ export function FooterSection() {
         </div>
 
         {/* Copyright */}
-        <div className="border-t border-slate-800 pt-8 text-center">
+        <div className="border-t border-slate-800 pt-8 text-center flex justify-between items-center">
           <p className="text-slate-600 text-sm">© 2025 mural de la iglesia metodista Cusco. derechos reservados.</p>
+          <a
+            href="/admin"
+            className="text-xs text-slate-500 hover:text-amber-500 transition-colors opacity-50 hover:opacity-100 duration-300"
+            title="Área de administración"
+          >
+            ⚙️
+          </a>
         </div>
       </div>
     </footer>

@@ -1,19 +1,9 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Calendar, Clock, MapPin } from "lucide-react"
+import { Calendar, Clock, MapPin, CheckCircle } from "lucide-react"
 import Image from "next/image"
-
-interface Event {
-  id: number
-  title: string
-  date: string
-  time: string
-  location: string
-  description: string
-  gallery: string[]
-  category: string
-}
+import { Event } from "@/lib/types"
 
 interface EventCardProps {
   event: Event
@@ -100,6 +90,10 @@ export function EventCard({ event, onClick }: EventCardProps) {
           <div className="flex items-center text-slate-300">
             <MapPin className="w-5 h-5 mr-3 text-amber-400" />
             <span className="text-sm">{event.location}</span>
+          </div>
+          <div className="flex items-center text-slate-300 bg-slate-800/30 rounded-lg p-2 px-3">
+            <CheckCircle className="w-5 h-5 mr-3 text-green-400" />
+            <span className="text-sm font-semibold">{event.confirmations || 0} confirmados</span>
           </div>
         </div>
 

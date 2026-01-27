@@ -2,8 +2,13 @@
 
 import { useEffect, useState } from "react"
 import { events } from "@/lib/events-data"
+import { AboutData } from "@/lib/types"
 
-export function HeroSection() {
+interface HeroSectionProps {
+  aboutData?: AboutData
+}
+
+export function HeroSection({ aboutData }: HeroSectionProps) {
   const [isVisible, setIsVisible] = useState(false)
   const activeMembers = 221
   const totalEvents = events.length
@@ -49,8 +54,7 @@ export function HeroSection() {
         </h1>
 
         <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto mb-12 leading-relaxed">
-          Descubre los próximos eventos de nuestra Iglesia cristiana Metodista - Cusco y únete a nosotros en adoración, aprendizaje y
-          compañerismo
+          {aboutData?.subtitle || "Descubre los próximos eventos de nuestra Iglesia cristiana Metodista - Cusco y únete a nosotros en adoración, aprendizaje y compañerismo"}
         </p>
 
         <div className="flex flex-col sm:flex-row gap-8 justify-center mb-12 max-w-2xl mx-auto">
