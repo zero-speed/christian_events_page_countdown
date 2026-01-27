@@ -7,6 +7,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { events, aboutData as initialAboutData, galleryItems as initialGalleryItems } from "@/lib/events-data"
 import { Event, AboutData, GalleryItem, AdminTab } from "@/lib/types"
+import { loadEvents, saveEvents, loadCategories, saveCategories } from "@/lib/firebase"
 
 export default function AdminPage() {
   const router = useRouter()
@@ -35,13 +36,16 @@ export default function AdminPage() {
     gallery: [] as string[],
   })
 
-  // Check authentication
+  // Check authentication and load data from Firebase
   useEffect(() => {
     const auth = localStorage.getItem("adminAuth")
     if (auth) {
       const parsed = JSON.parse(auth)
       if (parsed.authenticated) {
         setIsAuthenticated(true)
+        // Load data from Firebase
+        loadEventsFromFirebase()
+        loadCategoriesFromFirebase()
       }
     }
     setIsLoading(false)
@@ -50,6 +54,28 @@ export default function AdminPage() {
       router.push("/admin/login")
     }
   }, [router])
+
+  const loadEventsFromFirebase = async () => {
+    try {
+      const firebaseEvents = await loadEvents()
+      if (firebaseEvents && Array.isArray(firebaseEvents)) {
+        setEventList(firebaseEvents)
+      }
+    } catch (error) {
+      console.error("Error loading events from Firebase:", error)
+    }
+  }
+
+  const loadCategoriesFromFirebase = async () => {
+    try {
+      const firebaseCategories = await loadCategories()
+      if (firebaseCategories && Array.isArray(firebaseCategories)) {
+        setCategories(firebaseCategories)
+      }
+    } catch (error) {
+      console.error("Error loading categories from Firebase:", error)
+    }
+  }
 
   const handleLogout = () => {
     localStorage.removeItem("adminAuth")
@@ -94,7 +120,9 @@ export default function AdminPage() {
         confirmations: 0,
         comments: [],
       }
-      setEventList([...eventList, newEvent])
+      const updatedList = [...eventList, newEvent]
+      setEventList(updatedList)
+      saveEvents(updatedList)
       setFormData({
         title: "",
         date: "",
@@ -128,16 +156,16 @@ export default function AdminPage() {
 
   const handleUpdateEvent = () => {
     if (editingEvent && formData.title && formData.date) {
-      setEventList(
-        eventList.map((e) =>
-          e.id === editingEvent.id
-            ? {
-                ...e,
-                ...formData,
-              }
-            : e
-        )
+      const updatedList = eventList.map((e) =>
+        e.id === editingEvent.id
+          ? {
+              ...e,
+              ...formData,
+            }
+          : e
       )
+      setEventList(updatedList)
+      saveEvents(updatedList)
       setEditingEvent(null)
       handleResetForm()
     }
@@ -161,13 +189,17 @@ export default function AdminPage() {
 
   const handleDeleteEvent = (id: number) => {
     if (confirm("¿Estás seguro de que deseas eliminar este evento?")) {
-      setEventList(eventList.filter((e) => e.id !== id))
+      const updatedList = eventList.filter((e) => e.id !== id)
+      setEventList(updatedList)
+      saveEvents(updatedList)
     }
   }
 
   const handleAddCategory = () => {
     if (newCategoryName.trim() && !categories.includes(newCategoryName)) {
-      setCategories([...categories, newCategoryName])
+      const updatedCategories = [...categories, newCategoryName]
+      setCategories(updatedCategories)
+      saveCategories(updatedCategories)
       setNewCategoryName("")
       setShowNewCategoryModal(false)
     }
