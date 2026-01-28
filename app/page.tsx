@@ -7,7 +7,8 @@ import { HeroSection } from "@/components/hero-section"
 import { GallerySection } from "@/components/gallery-section"
 import { FooterSection } from "@/components/footer-section"
 import { CategoryFilter } from "@/components/category-filter"
-import { events } from "@/lib/events-data"
+import { events as defaultEvents } from "@/lib/events-data"
+import { loadEvents } from "@/lib/firebase"
 import { Event } from "@/lib/types"
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [upcomingCount, setUpcomingCount] = useState(0)
+  const [eventList, setEventList] = useState<Event[]>(defaultEvents)
 
   const openModal = (event: Event) => {
     setSelectedEvent(event)
@@ -26,11 +28,28 @@ export default function Home() {
     setTimeout(() => setSelectedEvent(null), 300)
   }
 
+  // Load events from Firebase on mount
+  useEffect(() => {
+    const loadEventsFromFirebase = async () => {
+      try {
+        const firebaseEvents = await loadEvents()
+        if (firebaseEvents && Array.isArray(firebaseEvents)) {
+          setEventList(firebaseEvents)
+        }
+      } catch (error) {
+        console.error("Error loading events from Firebase:", error)
+        // Keep default events if Firebase fails
+      }
+    }
+
+    loadEventsFromFirebase()
+  }, [])
+
   // Update upcoming events count automatically
   useEffect(() => {
     const updateCount = () => {
       const now = new Date()
-      const upcoming = events.filter((e) => new Date(e.date) >= now).length
+      const upcoming = eventList.filter((e) => new Date(e.date) >= now).length
       setUpcomingCount(upcoming)
     }
 
@@ -39,12 +58,12 @@ export default function Home() {
     const interval = setInterval(updateCount, 60000)
 
     return () => clearInterval(interval)
-  }, [])
+  }, [eventList])
 
   // Filter events by category and sort by date, exclude past events
   const filteredAndSortedEvents = useMemo(() => {
     const now = new Date()
-    let filtered = events
+    let filtered = eventList
 
     // Filter out past events (events that have already ended)
     filtered = filtered.filter((event) => {
@@ -59,7 +78,7 @@ export default function Home() {
 
     // Sort by date (ascending)
     return filtered.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-  }, [selectedCategory])
+  }, [selectedCategory, eventList])
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
