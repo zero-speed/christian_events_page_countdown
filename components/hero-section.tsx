@@ -1,17 +1,18 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { events } from "@/lib/events-data"
+import { events as defaultEvents } from "@/lib/events-data"
 import { AboutData } from "@/lib/types"
 
 interface HeroSectionProps {
   aboutData?: AboutData
+  upcomingCount?: number
 }
 
-export function HeroSection({ aboutData }: HeroSectionProps) {
+export function HeroSection({ aboutData, upcomingCount }: HeroSectionProps) {
   const [isVisible, setIsVisible] = useState(false)
   const activeMembers = 221
-  const totalEvents = events.length
+  const totalEvents = upcomingCount !== undefined ? upcomingCount : defaultEvents.length
 
   useEffect(() => {
     setIsVisible(true)

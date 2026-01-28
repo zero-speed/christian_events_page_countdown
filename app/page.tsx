@@ -106,7 +106,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
-      <HeroSection aboutData={aboutData} />
+      <HeroSection aboutData={aboutData} upcomingCount={upcomingCount} />
 
       {/* Events Section */}
       <section className="py-20 px-4">

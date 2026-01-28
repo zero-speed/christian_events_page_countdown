@@ -9,7 +9,7 @@ import "./globals.css"
 export const metadata: Metadata = {
   title: "Eventos Metodistas",
   description: "Descubre los próximos eventos de nuestra Iglesia Metodista",
-  generator: "Efrain by v0.app",
+  generator: "Efrain and v0.app",
 }
 
 export default function RootLayout({
