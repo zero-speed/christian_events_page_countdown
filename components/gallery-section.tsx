@@ -3,11 +3,17 @@
 import { useState } from "react"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { galleryItems } from "@/lib/events-data"
+import { galleryItems as defaultGalleryItems } from "@/lib/events-data"
+import { GalleryItem } from "@/lib/types"
 
-export function GallerySection() {
+interface GallerySectionProps {
+  galleryItems?: GalleryItem[]
+}
+
+export function GallerySection({ galleryItems: propGalleryItems }: GallerySectionProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
 
+  const galleryItems = propGalleryItems && propGalleryItems.length > 0 ? propGalleryItems : defaultGalleryItems
   const currentItem = galleryItems[currentIndex]
 
   const handlePrevious = () => {

@@ -8,8 +8,8 @@ import { GallerySection } from "@/components/gallery-section"
 import { FooterSection } from "@/components/footer-section"
 import { CategoryFilter } from "@/components/category-filter"
 import { events as defaultEvents } from "@/lib/events-data"
-import { loadEvents } from "@/lib/firebase"
-import { Event } from "@/lib/types"
+import { listenToEvents, listenToGalleryItems, listenToAboutData } from "@/lib/firebase"
+import { Event, GalleryItem, AboutData } from "@/lib/types"
 
 export default function Home() {
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null)
@@ -17,6 +17,8 @@ export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [upcomingCount, setUpcomingCount] = useState(0)
   const [eventList, setEventList] = useState<Event[]>(defaultEvents)
+  const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([])
+  const [aboutData, setAboutData] = useState<AboutData | null>(null)
 
   const openModal = (event: Event) => {
     setSelectedEvent(event)
@@ -28,21 +30,43 @@ export default function Home() {
     setTimeout(() => setSelectedEvent(null), 300)
   }
 
-  // Load events from Firebase on mount
+  // Load events from Firebase on mount with real-time listener
   useEffect(() => {
-    const loadEventsFromFirebase = async () => {
-      try {
-        const firebaseEvents = await loadEvents()
-        if (firebaseEvents && Array.isArray(firebaseEvents)) {
-          setEventList(firebaseEvents)
-        }
-      } catch (error) {
-        console.error("Error loading events from Firebase:", error)
-        // Keep default events if Firebase fails
+    const unsubscribe = listenToEvents((firebaseEvents) => {
+      if (firebaseEvents && Array.isArray(firebaseEvents)) {
+        setEventList(firebaseEvents)
       }
-    }
+    })
 
-    loadEventsFromFirebase()
+    return () => {
+      unsubscribe()
+    }
+  }, [])
+
+  // Load gallery items from Firebase with real-time listener
+  useEffect(() => {
+    const unsubscribe = listenToGalleryItems((firebaseGalleryItems) => {
+      if (firebaseGalleryItems && Array.isArray(firebaseGalleryItems)) {
+        setGalleryItems(firebaseGalleryItems)
+      }
+    })
+
+    return () => {
+      unsubscribe()
+    }
+  }, [])
+
+  // Load about data from Firebase with real-time listener
+  useEffect(() => {
+    const unsubscribe = listenToAboutData((firebaseAboutData) => {
+      if (firebaseAboutData) {
+        setAboutData(firebaseAboutData)
+      }
+    })
+
+    return () => {
+      unsubscribe()
+    }
   }, [])
 
   // Update upcoming events count automatically
@@ -82,7 +106,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
-      <HeroSection />
+      <HeroSection aboutData={aboutData} />
 
       {/* Events Section */}
       <section className="py-20 px-4">
@@ -110,7 +134,7 @@ export default function Home() {
         </div>
       </section>
 
-      <GallerySection />
+      <GallerySection galleryItems={galleryItems} />
 
       <FooterSection />
 

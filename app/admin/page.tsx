@@ -7,7 +7,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { events, aboutData as initialAboutData, galleryItems as initialGalleryItems } from "@/lib/events-data"
 import { Event, AboutData, GalleryItem, AdminTab } from "@/lib/types"
-import { loadEvents, saveEvents, loadCategories, saveCategories } from "@/lib/firebase"
+import { loadEvents, saveEvents, loadCategories, saveCategories, loadAboutData, saveAboutData, loadGalleryItems, saveGalleryItems, listenToEvents, listenToCategories, listenToAboutData, listenToGalleryItems } from "@/lib/firebase"
 
 export default function AdminPage() {
   const router = useRouter()
@@ -43,9 +43,11 @@ export default function AdminPage() {
       const parsed = JSON.parse(auth)
       if (parsed.authenticated) {
         setIsAuthenticated(true)
-        // Load data from Firebase
-        loadEventsFromFirebase()
-        loadCategoriesFromFirebase()
+        // Load data from Firebase with real-time listeners
+        loadEventsWithListener()
+        loadCategoriesWithListener()
+        loadAboutDataWithListener()
+        loadGalleryItemsWithListener()
       }
     }
     setIsLoading(false)
@@ -54,6 +56,47 @@ export default function AdminPage() {
       router.push("/admin/login")
     }
   }, [router])
+
+  const loadEventsWithListener = () => {
+    const unsubscribe = listenToEvents((firebaseEvents) => {
+      if (firebaseEvents && Array.isArray(firebaseEvents)) {
+        setEventList(firebaseEvents)
+      }
+    })
+    // Store unsubscribe for cleanup if needed
+    return unsubscribe
+  }
+
+  const loadCategoriesWithListener = () => {
+    const unsubscribe = listenToCategories((firebaseCategories) => {
+      if (firebaseCategories && Array.isArray(firebaseCategories)) {
+        setCategories(firebaseCategories)
+      }
+    })
+    return unsubscribe
+  }
+
+  const loadAboutDataWithListener = async () => {
+    try {
+      const firebaseAboutData = await loadAboutData()
+      if (firebaseAboutData) {
+        setAboutData(firebaseAboutData)
+      }
+    } catch (error) {
+      console.error("Error loading about data:", error)
+    }
+  }
+
+  const loadGalleryItemsWithListener = async () => {
+    try {
+      const firebaseGalleryItems = await loadGalleryItems()
+      if (firebaseGalleryItems && Array.isArray(firebaseGalleryItems)) {
+        setGalleryItems(firebaseGalleryItems)
+      }
+    } catch (error) {
+      console.error("Error loading gallery items:", error)
+    }
+  }
 
   const loadEventsFromFirebase = async () => {
     try {
@@ -221,7 +264,7 @@ export default function AdminPage() {
   }
 
   const handleUpdateAbout = () => {
-    // Aquí se guardaría en base de datos, por ahora solo actualiza el estado
+    saveAboutData(aboutData)
     alert("Información actualizada correctamente")
   }
 
@@ -231,13 +274,13 @@ export default function AdminPage() {
   }
 
   const handleUpdateGalleryItem = (itemId: number, updatedTitle: string, updatedDescription: string) => {
-    setGalleryItems(
-      galleryItems.map((item) =>
-        item.id === itemId
-          ? { ...item, title: updatedTitle, description: updatedDescription }
-          : item
-      )
+    const updated = galleryItems.map((item) =>
+      item.id === itemId
+        ? { ...item, title: updatedTitle, description: updatedDescription }
+        : item
     )
+    setGalleryItems(updated)
+    saveGalleryItems(updated)
     setEditingGalleryItem(null)
     setShowGalleryForm(false)
   }
@@ -249,7 +292,9 @@ export default function AdminPage() {
 
   const handleDeleteGalleryItem = (itemId: number) => {
     if (confirm("¿Estás seguro de que deseas eliminar esta galería?")) {
-      setGalleryItems(galleryItems.filter((item) => item.id !== itemId))
+      const updated = galleryItems.filter((item) => item.id !== itemId)
+      setGalleryItems(updated)
+      saveGalleryItems(updated)
     }
   }
 
@@ -261,7 +306,9 @@ export default function AdminPage() {
         title: newTitle,
         description: newDescription,
       }
-      setGalleryItems([...galleryItems, newItem])
+      const updated = [...galleryItems, newItem]
+      setGalleryItems(updated)
+      saveGalleryItems(updated)
       setShowGalleryForm(false)
       alert("Galería agregada correctamente")
     } else {
